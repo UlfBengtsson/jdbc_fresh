@@ -1,15 +1,11 @@
 package org.example;
 
-import java.io.*;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.Set;
+import org.example.dao.CountryDao;
+import org.example.dao.CountryDaoJDBC;
 
-//config.properties
+import java.io.*;
+import java.nio.file.Paths;
+import java.util.Properties;
 
 public class App
 {
@@ -22,8 +18,13 @@ public class App
         //saveToPropFile("localhost","user", "password");
 
         readPropFile();
-
         System.out.println(connectionString + "\n" + userName + "\n" + password);
+
+        CountryDaoJDBC countryDao = new CountryDaoJDBC(connectionString,userName,password);
+
+        countryDao.getContinent("Asia").forEach(System.out::println);
+        System.out.println("------------------------");
+        countryDao.getContinentFirstLast("Asia").forEach(System.out::println);
     }
 
     private static void saveToPropFile(String connection, String loginName, String loginPassword) {
